@@ -44,11 +44,35 @@ func loadInputData() -> [InputData] {
     UnitName = String(String(UnitName).dropLast())
     rows.removeFirst()
     
-    for row in rows {
-        let inputColums = row.components(separatedBy: ",")
-        if inputColums.count == rows.first?.components(separatedBy: ",").count {
-            let linesStruct = InputData.init(raw: inputColums)
-            inputToStruct.append(linesStruct)
+    var separator = rows.first!.suffix(3)
+    separator = separator.prefix(1)
+
+    switch separator {
+    case ";":
+        for row in rows {
+            let inputColums = row.components(separatedBy: ";")
+            if inputColums.count == rows.first?.components(separatedBy: ";").count {
+                let linesStruct = InputData.init(raw: inputColums)
+                inputToStruct.append(linesStruct)
+            }
+        }
+
+    case ".":
+        for row in rows {
+            let inputColums = row.components(separatedBy: ".")
+            if inputColums.count == rows.first?.components(separatedBy: ".").count {
+                let linesStruct = InputData.init(raw: inputColums)
+                inputToStruct.append(linesStruct)
+            }
+        }
+        
+    default:
+        for row in rows {
+            let inputColums = row.components(separatedBy: ",")
+            if inputColums.count == rows.first?.components(separatedBy: ",").count {
+                let linesStruct = InputData.init(raw: inputColums)
+                inputToStruct.append(linesStruct)
+            }
         }
     }
     
